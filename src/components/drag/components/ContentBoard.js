@@ -3,10 +3,7 @@ import { Icon, Card } from 'antd';
 
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
-
-import _ from 'lodash';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const areaTarget = {
@@ -23,8 +20,18 @@ function collect(connect, monitor) {
     };
 }
 
-const tmpArr = getFromLS('items') || [];
+// const tmpArr = getFromLS('items') || [];
 //console.log(tmpArr[0])
+let tmpArr = []
+for (let i = 0; i < 20; i++) {
+    tmpArr.push({
+        h: 10,
+        w: 10,
+        i: Math.random() + 'nn',
+        x: i % 34,
+        y: 0
+    })
+}
 tmpArr.forEach(function (item) {
     if (item.y === null) {
         item.y = Infinity
@@ -41,22 +48,27 @@ function getFromLS(key) {
     return ls[key];
 };
 function saveToLS(key, value) {
-    if (localStorage) {
-        localStorage.setItem('rgl-7', JSON.stringify({
-            [key]: value
-        }));
-    }
+    // if (localStorage) {
+    //     localStorage.setItem('rgl-7', JSON.stringify({
+    //         [key]: value
+    //     }));
+    // }
 }
+let oneCol = 34
 class ContentBoard extends Component {
     static defaultProps = {
         className: "layout",
-        cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-        rowHeight: 100
+        // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+        cols: { lg: oneCol, md: oneCol, sm: oneCol, xs: oneCol, xxs: oneCol },
+        containerPadding: [10, 10],
+        rowHeight: 20,
+        margin: [10, 10]
     };
     state = {
         items: [...tmpArr],
     };
     onBreakpointChange(breakpoint, cols) {
+
         this.setState({
             breakpoint: breakpoint,
             cols: cols
@@ -67,17 +79,17 @@ class ContentBoard extends Component {
         let stateItems = [...this.state.items]
         //解决这里的this.state.items不是最新的items
         let arr = [...layout]
-        stateItems.forEach(function(stateItem){
-            arr.forEach(function(layoutItem){
-                if(stateItem.i === layoutItem.i){
-                    stateItem.x=layoutItem.x;
-                    stateItem.y=layoutItem.y;
-                    stateItem.w=layoutItem.w;
-                    stateItem.h=layoutItem.h;
-                    stateItem.maxH=layoutItem.maxH;
-                    stateItem.minH=layoutItem.minH;
-                    stateItem.moved=layoutItem.moved;
-                    stateItem.static=layoutItem.static;
+        stateItems.forEach(function (stateItem) {
+            arr.forEach(function (layoutItem) {
+                if (stateItem.i === layoutItem.i) {
+                    stateItem.x = layoutItem.x;
+                    stateItem.y = layoutItem.y;
+                    stateItem.w = layoutItem.w;
+                    stateItem.h = layoutItem.h;
+                    stateItem.maxH = layoutItem.maxH;
+                    stateItem.minH = layoutItem.minH;
+                    stateItem.moved = layoutItem.moved;
+                    stateItem.static = layoutItem.static;
                 }
             })
         })
@@ -106,32 +118,44 @@ class ContentBoard extends Component {
             zIndex: 10
         }
         let i = el.i;
-        let title = 'Card: ' + el.content.title;
+        // let title = 'Card: ' + el.content.title;
+        // return (
+        //     <Card title={title} key={i} data-grid={el}>
+        //         <span style={fixedStyle} onClick={this.fixed.bind(this, i)}><Icon type={el.isDraggable ? "lock" : "unlock"} /></span>
+        //         <span style={copyStyle} onClick={this.onAddItem.bind(this, el)}><Icon type="copy" /></span>
+        //         <span style={removeStyle} onClick={this.onRemoveItem.bind(this, i)} ><Icon type="delete" /></span>
+        //     </Card>
+        // );
         return (
-            <Card title={title} key={i} data-grid={el}>
-                <span style={fixedStyle} onClick={this.fixed.bind(this, i)}><Icon type={el.isDraggable ? "lock" : "unlock"} /></span>
-                <span style={copyStyle} onClick={this.onAddItem.bind(this, el)}><Icon type="copy" /></span>
-                <span style={removeStyle} onClick={this.onRemoveItem.bind(this, i)} ><Icon type="delete" /></span>
-            </Card>
-        );
+            <div key={i} data-grid={el} className="grid-div">
+                {
+                    <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>x</span>}
+            </div>
+        )
     };
     onAddItem(item) {
         let arr = [...this.state.items]
         this.setState({
             items: arr.concat({
-                i: 'n' + new Date(),
-                x: this.state.items.length * 2 % (this.state.cols || 12),
+                i: Math.random() + 'n',
+                x: this.state.items.length * 2 % (this.state.cols || 24),
                 y: Infinity,
-                w: 2,
-                h: 2,
-                content: item.content,
-                ...item.configOptions
+                w: 1,
+                h: 1,
+                // content: item.content,
+                // ...item.configOptions
             }),
         });
     };
     onRemoveItem(i) {
         //reject返回 过滤掉i 的一个新数组
-        this.setState({ items: _.reject(this.state.items, { i: i }) }, () => { saveToLS('items', this.state.items) });
+        let newArr = [...this.state.items].filter((item) => {
+            return item.i !== i
+        })
+        this.setState({
+            items:newArr
+        })
+        // this.setState({ items: _.reject(this.state.items, { i: i }) }, () => { saveToLS('items', this.state.items) });
     }
     fixed(i) {
         const test = [...this.state.items]
@@ -161,7 +185,8 @@ class ContentBoard extends Component {
                             onBreakpointChange={this.onBreakpointChange.bind(this)}
                             onLayoutChange={this.onLayoutChange.bind(this)}
                             {...this.props} >
-                            {_.map(this.state.items, this.createElement.bind(this))}
+                            {this.state.items.map(this.createElement.bind(this))
+                            }
                         </ResponsiveReactGridLayout>
                         : null
                     }

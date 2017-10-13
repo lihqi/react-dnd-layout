@@ -4,12 +4,15 @@ body {
   font-family: sans-serif;
 }
 .group{
-  padding: 10px;
+  /* padding: 10px; */
 }
 .group-item{
   margin-bottom: 10px
 }
-
+.grid-div{
+  background: rgb(209, 206, 206);
+  border-radius: 7px
+}
 
 .react-resizable {
   position: relative;

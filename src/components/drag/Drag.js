@@ -13,20 +13,20 @@ class Drag extends Component {
   render() {
     let items=[
       {
-        configOptions:{
-          minW:2,
-          maxW:4
-        },
+        // configOptions:{
+        //   minW:2,
+        //   maxW:4
+        // },
         content:{
           type: 'single', 
           title: '最小宽度2，最大宽度4'
         }
       },
       {
-        configOptions:{
-          minH:2,
-          maxH:4
-        },
+        // configOptions:{
+        //   minH:2,
+        //   maxH:4
+        // },
         content:{
           type: 'single', 
           title: '最小高度2，最大宽度4'
@@ -76,8 +76,8 @@ class Drag extends Component {
             </Menu>
           </Sider>
           <Layout style={{ padding: '0 24px 24px' }}>
-            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              <ContentBoard>
+            <Content style={{ background: '#fff',  margin: 0, minHeight: 280 }}>
+              <ContentBoard style={{width:1024}}>
               </ContentBoard>
             </Content>
           </Layout>
