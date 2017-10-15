@@ -8,7 +8,7 @@ class ComponentAttribute extends Component {
         } = this.props
         return (
             <div className="component-attribute">
-                {currentComponent.name?currentComponent.name:null}
+                {currentComponent?currentComponent:null}
             </div>
         )
     }

@@ -18,8 +18,8 @@ const mapDispatchToProps = (dispatch) => ({
 	setGroupItems(groupItems){
 		dispatch(setGroupItems(groupItems))
 	},
-	selectComponent(el){
-		dispatch(selectComponent(el))
+	selectComponent(componentType){
+		dispatch(selectComponent(componentType))
 	},
 })
 

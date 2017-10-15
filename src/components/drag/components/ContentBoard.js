@@ -137,7 +137,7 @@ class ContentBoard extends Component {
         )
     };
     ComponentContainerClick(el) {
-        this.props.selectComponent(el)
+        el.componentType === this.props.currentComponent ? null : this.props.selectComponent(el.componentType)
     }
     onAddItem(item) {
         let arr = [...this.state.items]
@@ -196,7 +196,7 @@ class ContentBoard extends Component {
                         : null
                     }
                 </div>
-                <ComponentAttribute {...this.props}/>
+                <ComponentAttribute {...this.props} />
 
             </div>
         );

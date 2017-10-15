@@ -1,8 +1,8 @@
 export const SELECT_COMPONENT   = "SELECT_COMPONENT"
 
-export const selectComponent = (el) => {
+export const selectComponent = (componentType) => {
 	return {
 		type: SELECT_COMPONENT,
-		el
+		componentType
 	}
 }
