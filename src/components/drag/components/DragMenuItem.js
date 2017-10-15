@@ -27,7 +27,7 @@ class DragMenuItem extends Component {
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move'
       }}>
-        {this.props.item.content.title}
+        {this.props.item.name}
       </div>
     );
   }

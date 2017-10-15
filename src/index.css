@@ -9,11 +9,15 @@ body {
 .group-item{
   margin-bottom: 10px
 }
-.grid-div{
+.component-container{
   background: rgb(209, 206, 206);
-  border-radius: 7px
+  /* border-radius: 7px */
 }
-
+.component-attribute{
+  position: absolute;
+  left: 1250px;
+  top: 70px;
+}
 .react-resizable {
   position: relative;
 }

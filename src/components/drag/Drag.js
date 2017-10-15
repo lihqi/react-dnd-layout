@@ -6,44 +6,94 @@ import DragMenuItem from './components/DragMenuItem';
 
 import ContentBoard from './components/ContentBoard';
 
+import AddRemoveLayout from './components/demo-component'
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 class Drag extends Component {
+  
   render() {
-    let items=[
+    let self=this
+    let items = [
       {
-        // configOptions:{
-        //   minW:2,
-        //   maxW:4
-        // },
-        content:{
-          type: 'single', 
-          title: '最小宽度2，最大宽度4'
-        }
+        //组件类型
+        componentType: 'email',
+        //组件名称
+        name: '电子邮件',
+        //组件宽度-以格子为单位 一个格子32px
+        w: 4,
+        //组件高度-以格子为单位 一个格子32px
+        h: 4,
+        //组件最小宽度-以格子为单位 一个格子32px
+        minW: 4,
+        //组件最大宽度-以格子为单位 一个格子32px
+        maxW: 10,
+        //组件最小高度-以格子为单位 一个格子32px
+        minH: 4,
+        //组件最大高度-以格子为单位 一个格子32px
+        maxH: 7
       },
       {
-        // configOptions:{
-        //   minH:2,
-        //   maxH:4
-        // },
-        content:{
-          type: 'single', 
-          title: '最小高度2，最大宽度4'
-        }
+        componentType: 'attendance',
+        name: '个人考勤',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
+      },
+      {
+        componentType: 'address',
+        name: '通讯簿',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
+      },
+      {
+        componentType: 'shortcut',
+        name: '快捷菜单',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
+      },
+      {
+        componentType: 'vote',
+        name: '投票',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
+      },
+      {
+        componentType: 'wait_handle',
+        name: '统一待办',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
+      },
+      {
+        componentType: 'workflow',
+        name: '我的工作',
+        w: 4,
+        h: 2,
+        minW: 4,
+        maxW: 4,
+        minH: 2,
+        maxH: 4
       },
     ]
-    // let items = [
-    //   { type: 'single', title: '单列布局容器' },
-    //   { type: 'couple', title: '双列布局容器' },
-    //   { type: 'triple', title: '三列布局容器' },
-    //   { type: 'text', title: '单行文本' },
-    //   { type: 'number', title: '数字文本' },
-    //   { type: 'currency', title: '货币文本' },
-    //   { type: 'date', title: '日期文本' },
-    //   { type: 'select', title: '下拉框' },
-    //   { type: 'link', title: '链接' },
-    // ];
     return (
       <Layout>
         <Header className="header">
@@ -64,9 +114,9 @@ class Drag extends Component {
               defaultOpenKeys={['sub1']}
               style={{ height: '100%' }}
             >
-              <SubMenu key="sub1" title={<span><Icon type="user" />可拖拽控件</span>}>
+              <SubMenu key="sub1" title={<span><Icon type="user" />所有组件</span>}>
                 {
-                  items.map(function (item,index) {
+                  items.map(function (item, index) {
                     return <Menu.Item key={index}>
                       <DragMenuItem item={item}></DragMenuItem>
                     </Menu.Item>
@@ -75,10 +125,12 @@ class Drag extends Component {
               </SubMenu>
             </Menu>
           </Sider>
-          <Layout style={{ padding: '0 24px 24px' }}>
-            <Content style={{ background: '#fff',  margin: 0, minHeight: 280 }}>
-              <ContentBoard style={{width:1024}}>
+          <Layout>
+            <Content style={{ background: '#fff', margin: 0, minHeight: 280 }}>
+             <ContentBoard style={{ width: 1024 }} {...self.props}>
               </ContentBoard>
+              {/* <AddRemoveLayout style={{ width: 1024 }}>
+              </AddRemoveLayout> */}
             </Content>
           </Layout>
         </Layout>

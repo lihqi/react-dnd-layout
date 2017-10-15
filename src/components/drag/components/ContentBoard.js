@@ -4,6 +4,8 @@ import { Icon, Card } from 'antd';
 import { ItemTypes } from './Constants';
 import { DropTarget } from 'react-dnd';
 import { Responsive, WidthProvider } from 'react-grid-layout';
+import ComponentContainer from './ComponentContainer'
+import ComponentAttribute from './ComponentAttribute';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const areaTarget = {
@@ -22,16 +24,17 @@ function collect(connect, monitor) {
 
 // const tmpArr = getFromLS('items') || [];
 //console.log(tmpArr[0])
+let oneCol = 24
 let tmpArr = []
-for (let i = 0; i < 20; i++) {
-    tmpArr.push({
-        h: 10,
-        w: 10,
-        i: Math.random() + 'nn',
-        x: i % 34,
-        y: 0
-    })
-}
+// for (let i = 0; i < 20; i++) {
+//     tmpArr.push({
+//         h: 1,
+//         w: 1,
+//         i: Math.random() + 'nn',
+//         x: i % oneCol,
+//         y: 0
+//     })
+// }
 tmpArr.forEach(function (item) {
     if (item.y === null) {
         item.y = Infinity
@@ -54,14 +57,14 @@ function saveToLS(key, value) {
     //     }));
     // }
 }
-let oneCol = 34
+
 class ContentBoard extends Component {
     static defaultProps = {
         className: "layout",
         // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
         cols: { lg: oneCol, md: oneCol, sm: oneCol, xs: oneCol, xxs: oneCol },
         containerPadding: [10, 10],
-        rowHeight: 20,
+        rowHeight: 32,
         margin: [10, 10]
     };
     state = {
@@ -126,13 +129,16 @@ class ContentBoard extends Component {
         //         <span style={removeStyle} onClick={this.onRemoveItem.bind(this, i)} ><Icon type="delete" /></span>
         //     </Card>
         // );
+        // return (<ComponentContainer data-grid={el} key={i} el={el} i={i} removeStyle={removeStyle} onRemoveItem={this.onRemoveItem.bind(this, i)}/>)
         return (
-            <div key={i} data-grid={el} className="grid-div">
-                {
-                    <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>x</span>}
+            <div key={i} data-grid={el} className="component-container" onClick={this.ComponentContainerClick.bind(this, el)}>
+                <ComponentContainer key={i} el={el} i={i} removeStyle={removeStyle} onRemoveItem={this.onRemoveItem.bind(this, i)} />
             </div>
         )
     };
+    ComponentContainerClick(el) {
+        this.props.selectComponent(el)
+    }
     onAddItem(item) {
         let arr = [...this.state.items]
         this.setState({
@@ -140,8 +146,7 @@ class ContentBoard extends Component {
                 i: Math.random() + 'n',
                 x: this.state.items.length * 2 % (this.state.cols || 24),
                 y: Infinity,
-                w: 1,
-                h: 1,
+                ...item
                 // content: item.content,
                 // ...item.configOptions
             }),
@@ -153,7 +158,7 @@ class ContentBoard extends Component {
             return item.i !== i
         })
         this.setState({
-            items:newArr
+            items: newArr
         })
         // this.setState({ items: _.reject(this.state.items, { i: i }) }, () => { saveToLS('items', this.state.items) });
     }
@@ -191,6 +196,8 @@ class ContentBoard extends Component {
                         : null
                     }
                 </div>
+                <ComponentAttribute {...this.props}/>
+
             </div>
         );
     }
